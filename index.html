@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" href="favicon.ico" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Fincas" />
+<meta name="theme-color" content="#4d7c0f" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Fincas - Cuenta</title>
+<script src="lib/lucide.min.js"></script>
+<style>
+:root{--bg:#f6f8f1;--card:#fff;--ink:#12201e;--mut:#7a8c89;--line:#e3eeec;--pri:#4d7c0f;--soft:#e8f2d2;--ok:#16a34a;--okbg:#dcfce7;--warn:#ea580c;--warnbg:#ffedd5;--sh:0 2px 12px rgba(77,124,15,.09)}
+.dark{--bg:#0f172a;--card:#1e293b;--ink:#e2e8f0;--mut:#94a3b8;--line:#334155;--soft:#2a3a12;--okbg:#064e3b;--warnbg:#7c2d12;--sh:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;touch-action:manipulation;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+button,input{font:inherit;color:inherit}button{border:0;background:none;cursor:pointer}
+.hidden{display:none!important}.wrap{max-width:30rem;margin:0 auto;padding:0 16px}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);padding:calc(12px + env(safe-area-inset-top)) 0 8px}
+.top .wrap{display:flex;align-items:center;justify-content:space-between}
+h1{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+.ib{width:40px;height:40px;border-radius:14px;background:var(--card);box-shadow:var(--sh);display:inline-flex;align-items:center;justify-content:center;margin-left:8px;color:var(--mut)}.ib svg{width:19px;height:19px}
+.hero{border-radius:24px;padding:18px 20px;color:#fff;background:linear-gradient(135deg,#3f6212,#4d7c0f 60%,#84a93a);box-shadow:0 10px 28px rgba(77,124,15,.3);display:flex;gap:16px;margin-bottom:12px}
+.hero div{flex:1}.hero small{display:block;opacity:.85;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.hero b{font-size:1.8rem;font-weight:800}.hero .sep{flex:0 0 1px;background:rgba(255,255,255,.3)}
+.card{background:var(--card);border-radius:20px;box-shadow:var(--sh);padding:14px}
+.e{display:flex;gap:10px;align-items:center;margin-bottom:8px}.grow{flex:1;min-width:0}.row{display:flex;align-items:center;gap:8px}.sp{justify-content:space-between}
+.big{font-weight:800;font-size:1.05rem}.mut{color:var(--mut);font-size:.78rem}.amt{font-weight:800;font-size:1.15rem;color:var(--pri)}
+.pill{display:inline-block;font-size:.65rem;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:99px;text-transform:uppercase}
+.pill.p{background:var(--warnbg);color:var(--warn)}.pill.c{background:var(--okbg);color:var(--ok)}
+.sm{padding:9px;border-radius:12px;color:var(--mut)}.sm svg{width:17px;height:17px}.sm.pay{background:var(--soft);color:var(--pri)}.sm.del{color:#f87171}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);padding:6px 12px calc(6px + env(safe-area-inset-bottom))}
+.tabbar .wrap{display:flex;padding:0}.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px;font-size:.68rem;font-weight:700;color:var(--mut)}.tab svg{width:22px;height:22px}.tab.on{color:var(--pri)}
+.hd{display:flex;align-items:center;justify-content:space-between;margin:6px 0 12px}.hd h2{margin:0;font-size:1.05rem;text-transform:capitalize;text-align:center}
+.ov{position:fixed;inset:0;overflow:hidden;z-index:50;background:rgba(10,18,4,.6);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:30rem;border-radius:28px 28px 0 0;padding:18px 18px calc(22px + env(safe-area-inset-bottom));max-height:calc(100% - 10px);overflow-y:auto;overscroll-behavior:contain;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+.sheet h3{margin:0;font-size:1.15rem}.sheet .sub{color:var(--mut);font-size:.8rem;margin-bottom:12px;text-transform:capitalize}
+input{font-size:16px;width:100%;background:var(--bg);border:1.5px solid transparent;border-radius:14px;padding:12px 14px;outline:0;min-width:0}input:focus{border-color:var(--pri)}
+.btn.wa{background:#25d366;margin-top:12px}
+.cg{display:grid;grid-template-columns:repeat(7,1fr) 1.3fr;gap:4px}.cg .w{text-align:center;font-size:.65rem;font-weight:800;color:var(--mut);padding-bottom:2px}
+.cc{aspect-ratio:.8;border-radius:10px;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding-top:5px;font-size:.8rem;font-weight:700}.cc small{font-size:.58rem;font-weight:800;color:var(--pri);margin-top:1px}.cc.on{background:var(--soft)}.cc.today{outline:2px solid var(--pri)}.cc.x{background:none}
+.cp{border-radius:10px;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1}.cp.p{background:var(--warnbg);color:var(--warn)}.cp.c{background:var(--okbg);color:var(--ok)}
+.mn{display:flex;align-items:center;gap:4px}.plus{font-size:.7rem;font-weight:800;color:var(--pri);background:var(--soft);padding:7px 9px;border-radius:10px;flex:none}.rm{padding:10px 12px;border-radius:12px;background:var(--bg);color:#ef4444;font-size:.78rem;font-weight:800;flex:none}.back{padding:10px 12px;border-radius:12px;background:var(--soft);color:var(--pri);font-size:.78rem;font-weight:800;flex:none}
+.t{width:54px;text-align:center;font-weight:800;flex:none;padding:12px 4px}.tu{color:var(--mut);font-size:.78rem;font-weight:700}.tr{display:flex;align-items:center;gap:4px;flex:none}
+.st{display:flex;gap:6px;margin:0 0 14px}.st button{flex:1;padding:8px 4px;border-radius:10px;background:var(--bg);color:var(--mut);font-size:.72rem;font-weight:800}.st button.on{background:var(--soft);color:var(--pri)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:10px 14px;border-radius:99px;background:var(--bg);font-weight:700;font-size:.85rem}.chip small{color:var(--mut);font-weight:600}
+.cr{display:flex;gap:8px;align-items:center;margin-bottom:8px}.cr .d{width:62px;font-size:.85rem;font-weight:700;text-transform:capitalize;flex:none}
+.two{display:flex;gap:10px}.two>*{flex:1}
+.btn{width:100%;padding:14px;border-radius:16px;background:var(--pri);color:#fff;font-weight:800}.btn.b{background:#2563eb}.btn.g{background:#16a34a}.btn.s{background:var(--soft);color:var(--pri)}.btn.gr{background:var(--bg);color:var(--mut)}
+.link{color:var(--mut);font-size:.8rem;font-weight:700;padding:10px;width:100%}
+label.l{display:block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:14px 4px 6px}
+.sum{background:var(--bg);border-radius:16px;padding:12px 14px;margin:12px 0}.sum .row{margin:3px 0}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}.tot{position:sticky;bottom:0}
+
+.stp{display:flex;align-items:center;gap:8px}.stp button{width:46px;height:46px;border-radius:14px;background:var(--soft);color:var(--pri);font-size:1.5rem;font-weight:800;line-height:1}
+.stp input{text-align:center;font-weight:800;font-size:1.2rem;width:84px;padding:11px 4px}
+.bl{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.sg{display:flex;gap:6px;margin-bottom:6px}.sg button{flex:1;padding:10px 4px;border-radius:10px;background:var(--bg);color:var(--mut);font-size:.78rem;font-weight:800}.sg button.on{background:var(--soft);color:var(--pri)}
+.fh{display:flex;align-items:flex-start;justify-content:space-between;margin:4px 0 12px}.fh h2{margin:0;font-size:1.3rem}
+.pr{display:flex;align-items:center;gap:10px;margin-bottom:8px}.pr span{flex:1;font-weight:700}.pr input{width:110px;text-align:right}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><h1>Fincas</h1><div><button class="ib" onclick="toggleDark()"><i id="ti" data-lucide="moon"></i></button></div></div></div>
+<main class="wrap">
+<section id="v-fincas"><button class="btn" onclick="openFForm()">+ Nueva finca</button><div id="fincaList" style="margin-top:14px"></div></section>
+<section id="v-finca" class="hidden">
+ <button class="link" style="text-align:left;padding-left:2px" onclick="go('fincas')">‹ Volver a las fincas</button>
+ <div class="fh"><div><h2 id="fName"></h2><div class="mut" id="fOwner"></div></div><button class="ib" onclick="openFForm(curF)"><i data-lucide="pencil"></i></button></div>
+ <div class="hero"><div><small>Total hasta ahora</small><b id="fTotal">0€</b></div><span class="sep"></span><div><small>Días</small><b id="fDays">0</b></div></div>
+ <div class="two"><button class="btn" onclick="newDay()">+ Añadir día</button><button class="btn s" onclick="openBill()">Ver cuenta</button></div>
+ <div id="dayList" style="margin-top:14px"></div>
+</section>
+<section id="v-people" class="hidden"><div class="hd"><h2>Personas</h2></div>
+ <div class="mut" style="margin:0 4px 12px">Si quitas a alguien, sus horas anteriores se conservan. Puedes volver a añadirlo cuando quieras.</div>
+ <div id="pList"></div><div class="cr" style="margin-top:8px"><input id="newEmp" placeholder="Nombre de la persona"><button class="btn s" style="width:auto;padding:12px 16px" onclick="addPerson()">Añadir</button></div>
+</section>
+<section id="v-set" class="hidden"><div class="hd"><h2>Precios y ajustes</h2></div>
+ <div class="card" id="prices"></div>
+ <p class="mut" style="margin:10px 4px">Los precios nuevos se aplican a los días que apuntes a partir de ahora. En cada finca puedes aplicarlos a todos sus días con «Actualizar precios».</p>
+ <label class="l">Copia de seguridad</label><div class="two"><button class="btn b" id="export-btn">Exportar</button><button class="btn g" id="import-btn">Cargar</button></div>
+ <input type="file" id="import-input" accept=".json" style="display:none" />
+</section>
+</main>
+<nav class="tabbar"><div class="wrap">
+<button class="tab on" id="t-fincas" onclick="go('fincas')"><i data-lucide="map"></i>Fincas</button>
+<button class="tab" id="t-people" onclick="go('people')"><i data-lucide="users"></i>Personas</button>
+<button class="tab" id="t-set" onclick="go('set')"><i data-lucide="settings"></i>Precios</button></div></nav>
+
+<div id="fform" class="ov hidden" onclick="if(event.target===this)closeFForm()"><div class="sheet">
+ <h3 id="ff-title">Nueva finca</h3>
+ <label class="l">Nombre de la finca</label><input id="fNameIn" placeholder="Ej. La Dehesa" />
+ <label class="l">Dueño</label><input id="fOwnerIn" list="owners" placeholder="Nombre del dueño" /><datalist id="owners"></datalist>
+ <button class="btn" style="margin-top:14px" onclick="saveFForm()">Guardar</button>
+ <button class="btn gr" id="ff-del" style="margin-top:8px" onclick="delFinca()">Eliminar finca</button>
+ <button class="link" onclick="closeFForm()">Cancelar</button>
+</div></div>
+
+<div id="day" class="ov hidden" onclick="if(event.target===this)closeDay()"><div class="sheet">
+ <h3>Día de trabajo</h3>
+ <label class="l">Fecha</label><input type="date" id="dDate" onchange="setDate(this.value)" />
+ <label class="l">Lo que ha ido hoy</label><div id="dCounts"></div>
+ <label class="l">Personas y horas</label><div id="dPeople"></div>
+ <button class="link" style="text-align:left" onclick="openAddP()">+ Añadir o volver a añadir una persona</button>
+ <div class="sum row sp"><span>Total del día</span><b class="amt" id="dAmt"></b></div>
+ <button class="btn" onclick="closeDay()">Listo</button>
+ <button class="link" style="color:#ef4444" onclick="delDay()">Eliminar este día</button>
+</div></div>
+
+<div id="bill" class="ov hidden" onclick="if(event.target===this)closeBill()"><div class="sheet">
+ <h3 id="b-title"></h3><div class="sub" id="b-sub"></div>
+ <div id="b-lines"></div>
+ <label class="l">Otros conceptos (gasoil, descuentos...)</label><div id="b-extras"></div>
+ <div class="cr"><input id="exName" placeholder="Concepto"><input id="exAmt" placeholder="€" inputmode="decimal" style="width:90px;flex:none"><button class="btn s" style="width:auto;padding:12px 14px" onclick="addExtra()">+</button></div>
+ <div class="sum row sp" style="font-size:1.2rem"><b>Total</b><b class="amt" id="b-total"></b></div>
+ <label class="l">Horas por persona</label><div id="b-people" class="mut"></div>
+ <button class="btn wa" onclick="shareWA()">Enviar cuenta por WhatsApp</button>
+ <button class="btn s" id="b-close" style="margin-top:8px" onclick="toggleClosed()"></button>
+ <button class="link" onclick="applyPrices()">Actualizar precios de esta finca a los actuales</button>
+ <button class="link" onclick="closeBill()">Cerrar</button>
+</div></div>
+
+<div id="addp" class="ov hidden" onclick="if(event.target===this)closeAddP()"><div class="sheet">
+ <h3>Añadir persona</h3>
+ <label class="l">Volver a añadir a alguien que quitaste</label><div id="addp-list" class="chips"></div>
+ <label class="l">Persona nueva</label><div class="cr"><input id="newP" placeholder="Nombre"><button class="btn s" style="width:auto;padding:12px 16px" onclick="createAddP()">Añadir</button></div>
+ <button class="link" onclick="closeAddP()">Cerrar</button>
+</div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>new Date(s+"T12:00");
+const today=()=>iso(new Date());
+const r2=n=>Math.round(n*100)/100;
+const money=n=>{const r=r2(n);return(Number.isInteger(r)?String(r):r.toFixed(2)).replace(".",",")+"€"};
+const fmtShort=s=>parse(s).toLocaleDateString("es-ES",{day:"numeric",month:"short"});
+const fmtDay=s=>parse(s).toLocaleDateString("es-ES",{weekday:"short",day:"numeric",month:"short"});
+const split=m=>[Math.floor(m/60),m%60];
+const fmtM=m=>{const[h,r]=split(m);return h&&r?`${h}h ${pad(r)}min`:h?`${h}h`:`${r}min`};
+const nf=n=>Number(n).toLocaleString("es-ES");
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const ic=()=>lucide.createIcons();
+const DEFP={machine:30,comb:10,blower:10,kilo:3,hour:10,kiloPer:1,hoursInBill:true};
+const fixP=e=>({...e,status:(e.status==="archived"||e.active===false)?"archived":"fixed"});
+const st=e=>e.status||"fixed";
+function load(){try{const v=JSON.parse(localStorage.getItem("fincas_v1"));if(v&&Array.isArray(v.fincas))return{fincas:v.fincas.map(f=>({extras:[],...f})),days:v.days||[],entries:v.entries||[],people:(v.people||[]).map(fixP),settings:{prices:{...DEFP,...((v.settings||{}).prices||{})}}}}catch{}return{fincas:[],days:[],entries:[],people:[],settings:{prices:{...DEFP}}}}
+let D=load();const save=()=>localStorage.setItem("fincas_v1",JSON.stringify(D));
+let tab="fincas",curF=null,curDay=null,editingF=null;
+const finca=id=>D.fincas.find(f=>f.id===id),person=id=>D.people.find(p=>p.id===id),day=id=>D.days.find(d=>d.id===id);
+const fDays=id=>D.days.filter(d=>d.fincaId===id).sort((a,b)=>b.date.localeCompare(a.date));
+const getEntry=(fid,pid,date)=>D.entries.find(e=>e.fincaId===fid&&e.empId===pid&&e.date===date);
+const hourAmt=e=>r2(e.mins*e.rate/60);
+const snap=()=>{const p=D.settings.prices;return{machine:p.machine,comb:p.comb,blower:p.blower,kilo:p.kilo,kiloPer:p.kiloPer}};
+function parts(d){const p=d.p;return{machine:r2(d.machines*p.machine),comb:r2(d.combs*p.comb),blower:r2(d.blowers*p.blower),kilo:r2(d.kilos/p.kiloPer*p.kilo)}}
+const dayAmt=d=>{const a=parts(d);const h=D.settings.prices.hoursInBill?D.entries.filter(e=>e.fincaId===d.fincaId&&e.date===d.date).reduce((s,e)=>s+hourAmt(e),0):0;return r2(a.machine+a.comb+a.blower+a.kilo+h)};
+
+// Cuenta de una finca
+function bill(fid){const f=finca(fid),days=fDays(fid),es=D.entries.filter(e=>e.fincaId===fid);
+ const mk=(label,key,field)=>{let q=0,a=0,ps=new Set(),per=1;days.forEach(d=>{q+=d[field];a+=parts(d)[key];if(d[field]){ps.add(d.p[key]);per=d.p.kiloPer}});return{label,key,q,a:r2(a),price:ps.size===1?[...ps][0]:null,per}};
+ const lines=[mk("Máquinas","machine","machines"),mk("Peines","comb","combs"),mk("Sopladoras","blower","blowers"),mk("Kilos","kilo","kilos")];
+ const mins=es.reduce((s,e)=>s+e.mins,0),hAmt=r2(es.reduce((s,e)=>s+hourAmt(e),0)),rates=new Set(es.map(e=>e.rate));
+ const inc=D.settings.prices.hoursInBill,ex=r2(f.extras.reduce((s,x)=>s+x.amount,0));
+ return{f,days,lines,mins,hAmt,hRate:rates.size===1?[...rates][0]:null,inc,ex,total:r2(lines.reduce((s,l)=>s+l.a,0)+(inc?hAmt:0)+ex),es}}
+const perTxt=l=>l.per===1?"kg":l.per+" kg";
+const lineDetail=l=>l.key==="kilo"?`${nf(l.q)} kg${l.price!=null?` × ${money(l.price)}/${perTxt(l)}`:""}`:`${l.q}${l.price!=null?` × ${money(l.price)}`:""}`;
+
+// Navegación
+function go(t){tab=t;["fincas","finca","people","set"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==t));
+ const tb=t==="finca"?"fincas":t;["fincas","people","set"].forEach(x=>$("t-"+x).classList.toggle("on",x===tb));
+ if(t==="fincas")renderFincas();if(t==="finca")renderFinca();if(t==="people")renderPeople();if(t==="set")renderSet();ic();window.scrollTo(0,0)}
+function showFinca(id){curF=id;go("finca")}
+
+// Lista de fincas
+function renderFincas(){const list=[...D.fincas].sort((a,b)=>(a.status==="closed")-(b.status==="closed")||lastDate(b.id).localeCompare(lastDate(a.id)));
+ $("fincaList").innerHTML=list.map(f=>{const b=bill(f.id);return `<div class="card e" onclick="showFinca('${f.id}')"><div class="grow"><div class="big">${esc(f.name)}</div><div class="mut">${esc(f.owner||"Sin dueño")} · ${b.days.length} días</div><div style="margin-top:4px"><span class="pill ${f.status==="closed"?"c":"p"}">${f.status==="closed"?"Cerrada":"Abierta"}</span></div></div><div class="amt">${money(b.total)}</div></div>`}).join("")||`<div class="empty">Todavía no hay fincas.<br>Pulsa «Nueva finca» para empezar.</div>`}
+const lastDate=id=>{const d=fDays(id);return d.length?d[0].date:"0000"};
+
+// Crear / editar finca
+function openFForm(id){editingF=id||null;const f=id?finca(id):null;$("ff-title").textContent=f?"Editar finca":"Nueva finca";$("fNameIn").value=f?f.name:"";$("fOwnerIn").value=f?f.owner:"";
+ $("owners").innerHTML=[...new Set(D.fincas.map(x=>x.owner).filter(Boolean))].map(o=>`<option value="${esc(o)}">`).join("");$("ff-del").classList.toggle("hidden",!f);$("fform").classList.remove("hidden")}
+function closeFForm(){$("fform").classList.add("hidden")}
+function saveFForm(){const n=$("fNameIn").value.trim(),o=$("fOwnerIn").value.trim();if(!n)return alert("Escribe el nombre de la finca");
+ if(editingF){const f=finca(editingF);f.name=n;f.owner=o;save();closeFForm();renderFinca()}
+ else{const f={id:uid(),name:n,owner:o,status:"open",extras:[],created:today()};D.fincas.push(f);save();closeFForm();showFinca(f.id)}}
+function delFinca(){const f=finca(editingF);if(!f)return;if(!confirm(`¿Eliminar la finca «${f.name}» con todos sus días y horas? No se puede deshacer.`))return;
+ D.days=D.days.filter(d=>d.fincaId!==f.id);D.entries=D.entries.filter(e=>e.fincaId!==f.id);D.fincas=D.fincas.filter(x=>x.id!==f.id);save();closeFForm();go("fincas")}
+
+// Detalle de finca
+function renderFinca(){const f=finca(curF);if(!f)return go("fincas");const b=bill(f.id);$("fName").textContent=f.name;$("fOwner").textContent=(f.owner||"Sin dueño")+(f.status==="closed"?" · Cerrada":"");
+ $("fTotal").textContent=money(b.total);$("fDays").textContent=b.days.length;
+ $("dayList").innerHTML=b.days.map(d=>{const bits=[[d.machines,"máq"],[d.combs,"peines"],[d.blowers,"sopl"]].filter(x=>x[0]).map(x=>`${x[0]} ${x[1]}`);if(d.kilos)bits.push(nf(d.kilos)+" kg");
+  const es=D.entries.filter(e=>e.fincaId===f.id&&e.date===d.date),m=es.reduce((s,e)=>s+e.mins,0);
+  return `<div class="card e" onclick="openDay('${d.id}')"><div class="grow"><div class="big" style="text-transform:capitalize">${fmtDay(d.date)}</div><div class="mut">${bits.join(" · ")||"Sin datos"}</div><div class="mut">${es.length} personas${m?" · "+fmtM(m):""}</div></div><div class="amt">${money(dayAmt(d))}</div></div>`}).join("")||`<div class="empty">Aún no hay días.<br>Pulsa «Añadir día».</div>`}
+
+// Día
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+function newDay(){let date=today();for(let i=0;i<90&&D.days.some(x=>x.fincaId===curF&&x.date===date);i++)date=addDays(date,-1);
+ const d={id:uid(),fincaId:curF,date,machines:0,combs:0,blowers:0,kilos:0,p:snap()};D.days.push(d);save();openDay(d.id)}
+function openDay(id){curDay=id;renderDaySheet();$("day").classList.remove("hidden")}
+const CNT=[["machines","Máquinas"],["combs","Peines"],["blowers","Sopladoras"]];
+function tInputs(pid,date){const en=getEntry(curF,pid,date),[h,m]=split(en?en.mins:0);
+ return `<div class="tr" data-id="${pid}" data-d="${date}"><input class="t" data-e="${pid}" type="text" inputmode="decimal" placeholder="0" value="${h||""}" onchange="tCh(this)"><span class="tu">h</span><span class="mn ${m?"":"hidden"}"><input class="t" type="text" inputmode="numeric" placeholder="0" value="${m||""}" onchange="tCh(this)"><span class="tu">min</span></span><button class="plus ${m?"hidden":""}" onclick="showMin(this)">+min</button></div>`}
+function showMin(b){const r=b.closest(".tr");r.querySelector(".mn").classList.remove("hidden");b.classList.add("hidden");r.querySelectorAll("input")[1].focus()}
+function tCh(el){const r=el.closest(".tr"),[hi,mi]=r.querySelectorAll("input");const h=parseFloat(String(hi.value).replace(",","."))||0,m=parseInt(mi.value)||0;
+ const t=Math.max(0,Math.round(h*60+m));setMins(r.dataset.id,r.dataset.d,t);const[hh,mm]=split(t);hi.value=hh||"";mi.value=mm||"";if(mm){r.querySelector(".mn").classList.remove("hidden");r.querySelector(".plus").classList.add("hidden")}}
+function setMins(pid,date,t){const i=D.entries.findIndex(e=>e.fincaId===curF&&e.empId===pid&&e.date===date);
+ if(!(t>0)){if(i>=0)D.entries.splice(i,1)}else if(i>=0)D.entries[i].mins=t;else D.entries.push({id:uid(),fincaId:curF,empId:pid,date,mins:t,rate:D.settings.prices.hour});save();updDayAmt()}
+function updDayAmt(){const d=day(curDay);if(d)$("dAmt").textContent=money(dayAmt(d))}
+function renderDaySheet(){const d=day(curDay);$("dDate").value=d.date;
+ $("dCounts").innerHTML=CNT.map(([k,l])=>`<div class="cr sp" style="margin-bottom:10px"><span class="big">${l}</span><div class="stp"><button onclick="step('${k}',-1)">−</button><input id="n-${k}" inputmode="numeric" value="${d[k]||0}" onchange="setF('${k}',this.value)"><button onclick="step('${k}',1)">+</button></div></div>`).join("")
+  +`<div class="cr sp"><span class="big">Kilos tractor</span><div class="row"><input id="n-kilos" inputmode="decimal" value="${d.kilos||""}" placeholder="0" style="width:110px;text-align:center;font-weight:800" onchange="setF('kilos',this.value)"><span class="tu">kg</span></div></div>`;
+ const act=D.people.filter(p=>st(p)!=="archived"||getEntry(curF,p.id,d.date));
+ $("dPeople").innerHTML=act.map(p=>`<div class="cr"><span class="grow big" style="font-size:.95rem">${esc(p.name)}</span>${tInputs(p.id,d.date)}</div>`).join("")||`<div class="mut" style="margin-bottom:8px">Aún no hay personas. Añade la primera abajo.</div>`;updDayAmt()}
+function setF(k,v){const d=day(curDay);let n=k==="kilos"?parseFloat(String(v).replace(/\./g,"").replace(",","."))||0:parseInt(v)||0;d[k]=Math.max(0,n);$("n-"+k).value=d[k]||(k==="kilos"?"":0);save();updDayAmt()}
+function step(k,n){const d=day(curDay);setF(k,(d[k]||0)+n)}
+function setDate(v){const d=day(curDay);if(!v||v===d.date)return;
+ if(D.days.some(x=>x.fincaId===d.fincaId&&x.date===v&&x.id!==d.id)){alert("Ya hay un día apuntado con esa fecha en esta finca.");$("dDate").value=d.date;return}
+ D.entries.forEach(e=>{if(e.fincaId===d.fincaId&&e.date===d.date)e.date=v});d.date=v;save();renderDaySheet()}
+function closeDay(){const d=day(curDay);if(d&&!d.machines&&!d.combs&&!d.blowers&&!d.kilos&&!D.entries.some(e=>e.fincaId===d.fincaId&&e.date===d.date)){D.days=D.days.filter(x=>x.id!==d.id);save()}
+ curDay=null;$("day").classList.add("hidden");renderFinca()}
+function delDay(){const d=day(curDay);if(!d||!confirm("¿Eliminar este día con sus horas?"))return;D.entries=D.entries.filter(e=>!(e.fincaId===d.fincaId&&e.date===d.date));D.days=D.days.filter(x=>x.id!==d.id);save();curDay=null;$("day").classList.add("hidden");renderFinca()}
+
+// Cuenta
+function openBill(){renderBill();$("bill").classList.remove("hidden")}
+function closeBill(){$("bill").classList.add("hidden");renderFinca()}
+function renderBill(){const b=bill(curF),f=b.f;$("b-title").textContent=f.name;$("b-sub").textContent=f.owner||"";
+ const row=(t,d,a)=>`<div class="bl"><div><b>${t}</b><div class="mut">${d}</div></div><b>${a}</b></div>`;
+ $("b-lines").innerHTML=b.lines.filter(l=>l.q>0).map(l=>row(l.label,lineDetail(l),money(l.a))).join("")+(b.inc&&b.mins>0?row("Horas de personas",`${fmtM(b.mins)}${b.hRate!=null?` × ${money(b.hRate)}`:""}`,money(b.hAmt)):"")||`<div class="mut" style="padding:10px 0">Todavía no hay datos.</div>`;
+ $("b-extras").innerHTML=f.extras.map((x,i)=>`<div class="bl"><span>${esc(x.name)}</span><span class="row"><b>${money(x.amount)}</b><button class="sm del" onclick="delExtra(${i})">✕</button></span></div>`).join("")||`<div class="mut" style="margin-bottom:8px">Ninguno.</div>`;
+ $("b-total").textContent=money(b.total);
+ const per={};b.es.forEach(e=>{per[e.empId]=(per[e.empId]||0)+e.mins});
+ $("b-people").innerHTML=Object.entries(per).map(([id,m])=>`<div class="bl"><span>${esc((person(id)||{name:"?"}).name)}</span><b>${fmtM(m)}</b></div>`).join("")||"—";
+ $("b-close").textContent=f.status==="closed"?"Reabrir finca":"Cerrar finca (ya está entregada)"}
+function addExtra(){const n=$("exName").value.trim()||"Otros",a=parseFloat($("exAmt").value.replace(",","."));if(!isFinite(a)||a===0)return alert("Escribe el importe (con − si es un descuento)");
+ finca(curF).extras.push({name:n,amount:a});$("exName").value="";$("exAmt").value="";save();renderBill()}
+function delExtra(i){finca(curF).extras.splice(i,1);save();renderBill()}
+function toggleClosed(){const f=finca(curF);if(f.status==="closed"){f.status="open";delete f.closed}else{f.status="closed";f.closed=today()}save();renderBill()}
+function applyPrices(){if(!confirm("Se recalcularán todos los días de esta finca con los precios actuales de «Precios». ¿Continuar?"))return;
+ D.days.forEach(d=>{if(d.fincaId===curF)d.p=snap()});D.entries.forEach(e=>{if(e.fincaId===curF)e.rate=D.settings.prices.hour});save();renderBill()}
+function billText(){const b=bill(curF),f=b.f,ds=b.days.map(d=>d.date).sort(),L=[`*${f.name}*${f.owner?` (${f.owner})`:""}`];
+ if(ds.length)L.push(ds[0]===ds[ds.length-1]?fmtShort(ds[0]):`${fmtShort(ds[0])} – ${fmtShort(ds[ds.length-1])}`);L.push("");
+ b.lines.forEach(l=>{if(l.q>0)L.push(`${l.label}: ${lineDetail(l)} = ${money(l.a)}`)});
+ if(b.inc&&b.mins>0)L.push(`Horas de personas: ${fmtM(b.mins)}${b.hRate!=null?` × ${money(b.hRate)}`:""} = ${money(b.hAmt)}`);
+ f.extras.forEach(x=>L.push(`${x.name}: ${money(x.amount)}`));L.push("",`*Total: ${money(b.total)}*`);return L.join("\n")}
+function shareWA(){window.open("https://wa.me/?text="+encodeURIComponent(billText()),"_blank")}
+
+// Personas
+function renderPeople(){const row=(p,i,q)=>`<div class="cr"><input value="${esc(p.name)}" onchange="renamePerson(${i},this.value)" ${q?'style="opacity:.55"':""}>${q?`<button class="back" onclick="backPerson(${i})">Volver a añadir</button>`:`<button class="rm" onclick="quitPerson(${i})">Quitar</button>`}</div>`;
+ const on=D.people.map((p,i)=>st(p)!=="archived"?row(p,i,0):"").join(""),off=D.people.map((p,i)=>st(p)==="archived"?row(p,i,1):"").join("");
+ $("pList").innerHTML=(on||`<div class="mut" style="margin-bottom:8px">Aún no hay personas.</div>`)+(off?`<label class="l">Personas quitadas</label>${off}`:"")}
+function addPerson(){const n=$("newEmp").value.trim();if(!n)return;D.people.push({id:uid(),name:n,status:"fixed"});$("newEmp").value="";save();renderPeople()}
+function renamePerson(i,v){v=v.trim();if(v)D.people[i].name=v;save();renderPeople()}
+function quitPerson(i){const p=D.people[i];if(confirm(`¿Quitar a ${p.name} de la lista? Sus horas anteriores se conservan.`)){p.status="archived";save();renderPeople()}}
+function backPerson(i){D.people[i].status="fixed";save();renderPeople()}
+function openAddP(){const rest=D.people.filter(p=>st(p)==="archived");$("addp-list").innerHTML=rest.map(p=>`<button class="chip" onclick="backToList('${p.id}')">${esc(p.name)}</button>`).join("")||`<span class="mut">No hay nadie quitado.</span>`;$("newP").value="";$("addp").classList.remove("hidden")}
+function closeAddP(){$("addp").classList.add("hidden")}
+function afterAdd(id){closeAddP();if(curDay){renderDaySheet();const el=document.querySelector(`#dPeople [data-e="${id}"]`);if(el){el.scrollIntoView({block:"center"});el.focus()}}else renderPeople()}
+function backToList(id){person(id).status="fixed";save();afterAdd(id)}
+function createAddP(){const n=$("newP").value.trim();if(!n)return;const p={id:uid(),name:n,status:"fixed"};D.people.push(p);save();afterAdd(p.id)}
+
+// Precios y ajustes
+function renderSet(){const p=D.settings.prices,it=(k,l)=>`<div class="pr"><span>${l}</span><input type="text" inputmode="decimal" value="${p[k]}" onchange="setPrice('${k}',this.value)"><span style="flex:none" class="tu">€</span></div>`;
+ $("prices").innerHTML=it("machine","Máquina (por día)")+it("comb","Peine (por día)")+it("blower","Sopladora (por día)")+it("kilo","Kilos del tractor")
+  +`<div class="mut" style="margin:-2px 4px 6px">El precio de los kilos es por:</div><div class="sg">${[1,100,1000].map(n=>`<button class="${p.kiloPer===n?"on":""}" onclick="setPer(${n})">${n===1?"1 kg":n+" kg"}</button>`).join("")}</div>`
+  +it("hour","Hora de persona")+`<div class="mut" style="margin:4px 4px 6px">¿Se cobran al dueño las horas de las personas?</div><div class="sg"><button class="${p.hoursInBill?"on":""}" onclick="setInc(true)">Sí</button><button class="${p.hoursInBill?"":"on"}" onclick="setInc(false)">No</button></div>`}
+function setPrice(k,v){const n=parseFloat(String(v).replace(",","."));if(n>=0){D.settings.prices[k]=n;save()}renderSet()}
+function setPer(n){D.settings.prices.kiloPer=n;save();renderSet()}
+function setInc(b){D.settings.prices.hoursInBill=b;save();renderSet()}
+
+// Exportar / importar
+$("export-btn").addEventListener("click",()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download=`fincas-${today()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+$("import-btn").addEventListener("click",()=>$("import-input").click());
+function validar(v){const re=/^\d{4}-\d{2}-\d{2}$/;if(!v||!["fincas","days","entries","people"].every(k=>Array.isArray(v[k])))return null;
+ if(!v.fincas.every(f=>f&&f.id&&typeof f.name==="string"))return null;if(!v.days.every(d=>d&&d.fincaId&&re.test(d.date)&&d.p))return null;if(!v.entries.every(e=>e&&e.fincaId&&e.empId&&re.test(e.date)&&e.mins>0))return null;if(!v.people.every(p=>p&&p.id&&typeof p.name==="string"))return null;
+ return{fincas:v.fincas.map(f=>({extras:[],...f})),days:v.days,entries:v.entries,people:v.people.map(fixP),settings:{prices:{...DEFP,...((v.settings||{}).prices||{})}}}}
+$("import-input").addEventListener("change",ev=>{const inp=ev.target,f=inp.files[0];if(!f)return;const r=new FileReader();
+ r.onload=x=>{try{const v=validar(JSON.parse(x.target.result));if(!v)return alert("Archivo inválido ❌ No se ha cambiado nada.");
+  if(!confirm(`Se reemplazarán todos los datos actuales por los del archivo (${v.fincas.length} fincas, ${v.days.length} días). ¿Continuar?`))return;
+  D=v;save();go("fincas");alert("Datos importados ✅")}catch{alert("Error al leer el archivo ❌")}finally{inp.value=""}};r.readAsText(f)});
+
+// Tema, sin zoom y arranque
+function themeIcon(){$("ti").parentElement.innerHTML=`<i id="ti" data-lucide="${document.documentElement.classList.contains("dark")?"sun":"moon"}"></i>`;ic()}
+function toggleDark(){const d=document.documentElement.classList.toggle("dark");localStorage.setItem("theme",d?"dark":"light");themeIcon()}
+{const t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}
+["gesturestart","gesturechange","gestureend"].forEach(t=>document.addEventListener(t,e=>e.preventDefault()));
+document.addEventListener("touchmove",e=>{if(e.touches.length>1)e.preventDefault()},{passive:false});
+themeIcon();go("fincas");
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js");
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+</script>
+</body>
+</html>
